@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, url_for
+from .forms import SignupForm
 
 """
 GROUP:
@@ -8,6 +9,7 @@ GROUP:
 """
 
 app = Flask(__name__)
+
 # Estructura para eventos
 events = [
     {
@@ -36,6 +38,25 @@ def Home():
                     description=events[0]['description'],
                     date=events[0]['date'],
                     location=events[0]['location'],
-                    category=events[0]['category'])
+                    category=events[0]['category']
+    )
+    
+
+@app.route('/Formulario', methods=["GET", "POST"] )
+def Formulario():
+    form = SignupForm()
+    if form.validate_on_submit():
+        new_event = {
+            
+        }
+
+
+    return render_template("Form.html")
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 
