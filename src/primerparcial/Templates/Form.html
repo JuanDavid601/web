@@ -23,7 +23,7 @@
 
     <div>
         {{ form.description.label }}
-        {{ form.description(size=250) }}<br>
+        {{ form.description(size=150) }}<br>
         {% for error in form.description.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}
@@ -47,7 +47,7 @@
 
     <div>
         {{ form.location.label }}
-        {{ form.location(size=200) }}<br>
+        {{ form.location(size=150) }}<br>
         {% for error in form.location.errors %}
         <span style="color: red;">{{ error }}</span>
         {% endfor %}

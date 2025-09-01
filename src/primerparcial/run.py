@@ -43,7 +43,7 @@ app.config['SECRET_KEY'] = 'unaclave'
 #     )
     
 
-@app.route('/Formulario', methods=["GET", "POST"] )
+@app.route('/', methods=["GET", "POST"] )
 def Formulario():
     form = SignupForm()
     if form.validate_on_submit():
