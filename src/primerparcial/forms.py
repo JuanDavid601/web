@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, TimeField
+from wtforms import StringField, DateField, TimeField, SelectField
 from wtforms.validators import  DataRequired, Length
 
 class SignupForm(FlaskForm):
@@ -9,6 +9,10 @@ class SignupForm(FlaskForm):
     date = DateField('date', validators=[DataRequired()])
     time = TimeField('time', validators=[DataRequired()])
     location = StringField('location', validators=[DataRequired(), Length(max=150)])
+    category = SelectField('category', choices=[('deportivo','Deportivo'),
+                                                ('academico','Academico'),
+                                                ('cultural','Cultura')
+                                                ], validators=[DataRequired()])
 
 class UsuarioForm(FlaskForm):
     id = StringField('id', validators=[DataRequired(), Length(max=32)])

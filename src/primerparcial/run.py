@@ -17,8 +17,24 @@ categoria = ['deportivo', 'académico', 'cultural']
 
 
     
-events = []
-usuarios = []
+events = [    {
+        "id": "1",
+        "title": "Python",
+        "description": "Aprender python",
+        "date": "2025-09-10",
+        "time": "14:00",
+        "location": "Auditorio Principal",
+        "category": "académico"
+    },
+]
+
+usuarios = [
+    {
+        "id":"1",
+        "nombre": "David  Garcia",
+        "email": "David@abc.com"
+    }
+]
 
 
 @app.route('/')
@@ -26,7 +42,7 @@ def index():
     return render_template('Home.html', events=events)
 
 
-@app.route('/admin/Form', methods=["GET", "POST"] )
+@app.route('/admin/Form', methods=["GET", "POST"])
 def Formulario():
     form = SignupForm()
     if form.validate_on_submit():
@@ -36,15 +52,17 @@ def Formulario():
             "description": form.description.data,
             "date": form.date.data,
             "time": form.time.data,
-            "location": form.location.data
+            "location": form.location.data,
+            "category": form.category.data  
         }
         events.append(nuevo_evento)
 
-        next = request.args.get('next', None)
-        if next:
-            return redirect(next)
+        next_page = request.args.get('next', None)
+        if next_page:
+            return redirect(next_page)
         return redirect(url_for('index'))
     return render_template("Form.html", form=form)
+
 
 
 
