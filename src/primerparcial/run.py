@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
-from .forms import SignupForm, UsuarioForm
+from forms import SignupForm, UsuarioForm
 
 """
 GROUP:
@@ -18,31 +18,44 @@ categoria = ['deportivo', 'académico', 'cultural']
 
     
 events = [    {
-        "id": "1",
+        "id": "0",
         "title": "Python",
         "description": "Aprender python",
         "date": "2025-09-10",
         "time": "14:00",
         "location": "Auditorio Principal",
-        "category": "académico"
+        "category": "académico",
+        "attendees": [
+            {'name': 'Juan Pérez', 'email': 'juan@example.com'},
+            {'name': 'Juan Felipe', 'email': 'juan@example.com'},
+            {'name': 'Juan David Garcia', 'email': 'juan@example.com'},
+            {'name': 'Juan Hincapie', 'email': 'juan@example.com'}
+        ]
     },
 ]
 
-usuarios = [
-    {
-        "id":"1",
-        "nombre": "David  Garcia",
-        "email": "David@abc.com"
-    }
-]
+@app.route("/Registro", methods=['POST'])
+def registro():
+    if request.method == "POST":
+        id = request.form.get('id')
+        return render_template("registro_evento.html", id=id)
+    return render_template("registro_evento.html")
 
-
-@app.route('/')
+@app.route("/", methods=['POST', 'GET'])
 def index():
-    return render_template('Home.html', events=events)
+    if request.method == "POST":
+        id = int(request.form.get('id'))
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        try:
+            events[id]['attendees'].append({'name': nombre, 'email': email})
+        except:
+            return render_template("Home.html",num_eventos= len(events), eventos=events)
+
+    return render_template("Home.html",num_eventos= len(events), eventos=events)
 
 
-@app.route('/admin/Form', methods=["GET", "POST"])
+@app.route('/NewEvent', methods=["GET", "POST"])
 def Formulario():
     form = SignupForm()
     if form.validate_on_submit():
@@ -53,9 +66,11 @@ def Formulario():
             "date": form.date.data,
             "time": form.time.data,
             "location": form.location.data,
-            "category": form.category.data  
+            "category": form.category.data,
+            "attendees": []
         }
-        events.append(nuevo_evento)
+        print (nuevo_evento)
+        #events.append(nuevo_evento)
 
         next_page = request.args.get('next', None)
         if next_page:

@@ -1,32 +1,60 @@
 {% extends "Base.html" %}
-{% block title %}Eventos{% endblock %}
+{% block title%}INICIO{% endblock %}
 
-{% block content %}
-    {% include 'Barra.html' %}
-    <h2>Eventos</h2>
-    {% for evento in events %}
-        <ul>
-            <li>
-                <p>{{ evento.id }}</p>
-                <p>{{ evento.title }}</p>
-                <p>{{ evento.description }}</p>
-                <p>{{ evento.date }}</p>
-                <p>{{ evento.time }}</p>
-                <p>{{ evento.location }}</p>
-                <p>{{ evento.category }}</p>
-            </li>
-        </ul>   
-    {% endfor %}
+{% block content%}
+<div class="header">
+     <form action="/NewEvent" method="POST">
+        <button class="login-btn">Nuevo Evento</button>
+    </form>
+    <form action="/Admin" method="POST">
+        <button class="login-btn">Admin</button>
+    </form>
+</div>
 
-    <h2>Usuarios</h2>
-    {% for usuario in usuarios %}
-        <ul>
-            <li>
-                <p>{{ usuario.id }}</p>
-                <p>{{ usuario.nombre }}</p>
-                <p>{{ usuario.email }}</p>
-            </li>
-        </ul>
-    {% endfor %}
-
+<div class="container">
+    <h1 class="page-title">Este sitio contiene {{ num_eventos }} eventos</h1>
+    <div class="events-grid">
+        {% for evento in eventos %}
+            <form action="/Registro" method="POST">
+                <div class="event-card">
+                    <h2 class="event-title">{{ evento['title'] }}</h2>
+                    <p class="event-description">{{ evento['description'] }}</p>
+                    <div class="event-meta">
+                        <input name="id" id="id" title="id" value= "{{ evento['id'] }}" style="display: none;"></input>
+                        <div class="meta-item">
+                            <strong>ID</strong>
+                            <span>{{ evento['id'] }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Fecha</strong>
+                            <span>{{ evento['date'] }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Hora</strong>
+                            <span>{{ evento['time'] }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Lugar</strong>
+                            <span>{{ evento['location'] }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Categoría</strong>
+                            <span>{{ evento['category'] }}</span>
+                        </div>
+                    </div>
+                    <div class="invite-section">
+                        <label for="invitados-{{ loop.index }}">Asistentes</label>
+                        <select name="invitados" id="invitados-{{ loop.index }}">
+                            {% for invitado in evento['attendees'] %}
+                                <option value="{{ invitado['name'] }}">{{ invitado['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p></p>
+                    <input type="submit" value="Participar!!!">
+                </div>
+            </form>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
