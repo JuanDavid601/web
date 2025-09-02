@@ -1,10 +1,11 @@
 {% extends "Base.html" %}
-{% block title %}Registro Usuarios {% endblock}
+{% block title %}Registro Usuarios{% endblock %}
 
 {% block content %}
 <h2> Registro de Usuario</h2>
 
-<form action="" method="post" novalidate>
+<form action="/admin/Register" method="post" novalidate>
+
     <div>
         {{ form.id.label }}
         {{ form.id(size=32) }}<br>
@@ -15,9 +16,10 @@
 
     <div>
         {{ form.nombre.label }}
-        {{ form.nombre(size=50) }}
+        {{ form.nombre (size=50) }}<br>
         {% for error in form.nombre.errors %}
-        <span style="color: red;"> {{ error }}</span>
+        <span style="color: rgb(251, 5, 5);">{{ error }}</span>
+        {% endfor %}
     </div>
     
     <div>

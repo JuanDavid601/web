@@ -1,16 +1,16 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, TimeField
-from wtforms.validators import  DataRequired, length
+from wtforms.validators import  DataRequired, Length
 
 class SignupForm(FlaskForm):
-    id = StringField('id', validators=[DataRequired(), length(max=32)])
-    title = StringField('title', validators=[DataRequired(), length(max=30)])
-    description = StringField('description', validators=[DataRequired(), length(max=150)])
-    date = DateField('date', validators=[DataRequired(), length(max=20)])
-    time = TimeField('time', validators=[DataRequired(), length(max=100)])
-    location = StringField('location', validators=[DataRequired(), length(max=150)])
+    id = StringField('id', validators=[DataRequired(), Length(max=32)])
+    title = StringField('title', validators=[DataRequired(), Length(max=30)])
+    description = StringField('description', validators=[DataRequired(), Length(max=150)])
+    date = DateField('date', validators=[DataRequired()])
+    time = TimeField('time', validators=[DataRequired()])
+    location = StringField('location', validators=[DataRequired(), Length(max=150)])
 
 class UsuarioForm(FlaskForm):
-    id = StringField('id', validators=[DataRequired(), length(max=32)])
-    Nombre = StringField('nombre', validators=[length(max=50)])
-    Email = StringField('email', validators=[length(max=40)])
+    id = StringField('id', validators=[DataRequired(), Length(max=32)])
+    nombre = StringField('nombre', validators=[Length(max=50)])
+    email = StringField('email', validators=[Length(max=40)])
