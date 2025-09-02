@@ -60,6 +60,18 @@ def Formulario():
     return render_template("Form.html", form=form)
 
 
+@app.route('/Resgistro_eventos', methods=["GET", "POST"])
+def Registro_usuario():
+    form = Registro_usuario
+    if form.validate_on_submit():
+        id = form.id.data
+        nombre = form.nombre.data
+        email = form.nombre.data
+
+        return redirect(url_for('index'))
+    return render_template('Registro_eventos', form=form)
+
+
 
 
 
