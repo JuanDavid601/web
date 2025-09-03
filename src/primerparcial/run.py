@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for
 from .forms import SignupForm, UsuarioForm
+from collections import defaultdict
 
 """
 GROUP:
@@ -13,8 +14,8 @@ app.config['SECRET_KEY'] = 'unaclave'
 
 
 #Estructura para categorias.
-categoria = ['deportivo', 'académico', 'cultural']
-usuarios = []
+categorias = ['deportivo', 'académico', 'cultural']
+
 
     
 events = [    {
@@ -25,6 +26,7 @@ events = [    {
         "time": "14:00",
         "location": "Auditorio Principal",
         "category": "académico",
+        "Max_attendees": 50,
         "attendees": [
             {'name': 'Juan Pérez', 'email': 'juan@example.com'},
             {'name': 'Juan Felipe', 'email': 'juan@example.com'},
@@ -32,7 +34,30 @@ events = [    {
             {'name': 'Juan Hincapie', 'email': 'juan@example.com'}
         ],
         "Visible":True
+    },{
+        "id": "1",
+        "title": "C",
+        "description": "Aprender C",
+        "date": "2025-10-9",
+        "time": "10:00",
+        "location": "Auditorio Secundario",
+        "category": "académico",
+        "Max_attendees": 10,
+        "attendees": [],
+        "Visible":True
     },
+    {
+        "id": "2",
+        "title": "Teatro",
+        "description": "Aprender de Guion y Narrativa",
+        "date": "2026-1-1",
+        "time": "14:00",
+        "location": "Auditorio XXX",
+        "category": "cultural",
+        "Max_attendees": 34,
+        "attendees": [],
+        "Visible":True
+    }
 ]
 
 @app.route("/Registro", methods=['POST'])
@@ -40,7 +65,6 @@ def registro():
     if request.method == "POST":
         id = request.form.get('id')
         return render_template("registro_evento.html", id=id)
-    
     return render_template("registro_evento.html")
 
 @app.route('/procesarRegistro', methods=['POST'])
@@ -49,45 +73,26 @@ def procesar_Nuevo_Registro():
     nombre = request.form['nombre']
     email = request.form['email']
 
-    events[id]['attendees'].append({'name': nombre, 'email': email})
-    
-    return redirect(url_for('index'))
+    for event in events:
+        if event['id']==id:
+            event['attendees'].append({'name': nombre, 'email': email})
+            return redirect(url_for('index'))
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
     if request.method == "POST":
-        id = int(request.form.get('id'))
-        nombre = request.form.get('nombre')
-        email = request.form.get('email')
-        try:
-            events[id]['attendees'].append({'name': nombre, 'email': email})
-        except:
-            return render_template("Home.html",num_eventos= len(events), eventos=events)
-
-    return render_template("Home.html",num_eventos= len(events), eventos=events)
+        EventosFiltrados=[]
+        categoria =request.form["categorias"]
+        for event in events:
+            if event["category"]==categoria:
+                EventosFiltrados.append(event)
+        return render_template("Home.html",num_eventos= len(EventosFiltrados), eventos=EventosFiltrados, categorias=categorias)
+    return render_template("Home.html",num_eventos= len(events), eventos=events, categorias=categorias)
 
 
-@app.route('/Admin/Form', methods=["GET", "POST"])
+@app.route('/NewEvent', methods=["GET", "POST"])
 def Formulario():
     form = SignupForm()
-    if form.validate_on_submit():
-        nuevo_evento = {
-            "id": form.id.data,
-            "title": form.title.data,
-            "description": form.description.data,
-            "date": form.date.data,
-            "time": form.time.data,
-            "location": form.location.data,
-            "category": form.category.data,
-            "attendees": []
-        }
-        print (nuevo_evento)
-        #events.append(nuevo_evento)
-
-        next_page = request.args.get('next', None)
-        if next_page:
-            return redirect(next_page)
-        return redirect(url_for('index'))
     return render_template("Form.html", form=form)
 
 @app.route('/procesarEvento', methods=['POST'])
@@ -99,6 +104,7 @@ def procesar_Nuevo_Evento():
     time = request.form['time']
     location = request.form['location']
     category = request.form['category']
+    Max_attendees = request.form['Max_attendees']
 
     nuevo_evento = {
              "id": id,
@@ -108,6 +114,7 @@ def procesar_Nuevo_Evento():
              "time": time,
              "location": location,
              "category": category,
+             "Max_attendees": Max_attendees,
              "attendees": [],
              "Visible":True
          }
@@ -115,20 +122,18 @@ def procesar_Nuevo_Evento():
     
     return redirect(url_for('index'))
 
-
-
-@app.route("/admin/Register", methods=["GET", "POST"])
-def Registro_usuario():
-    form = UsuarioForm()
-    if form.validate_on_submit():
-        nuevo_usuario = {
-            "id": form.id.data,
-            "nombre": form.nombre.data,
-            "email": form.email.data
-        }
-        usuarios.append(nuevo_usuario)
-        return redirect(url_for('index'))
-    return render_template('Registro_eventos.html', form=form)
+# @app.route("/admin/Register", methods=["GET", "POST"])
+# def Registro_usuario():
+#     form = UsuarioForm()
+#     if form.validate_on_submit():
+#         nuevo_usuario = {
+#             "id": form.id.data,
+#             "nombre": form.nombre.data,
+#             "email": form.email.data
+#         }
+#         usuarios.append(nuevo_usuario)
+#         return redirect(url_for('index'))
+#     return render_template('Registro_eventos.html', form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)

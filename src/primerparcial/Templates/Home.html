@@ -3,13 +3,21 @@
 
 {% block content%}
 <div class="header">
-     <form action="/admin/Form" method="POST">
+     <form action="/NewEvent" method="POST">
         <button class="login-btn">Nuevo Evento</button>
     </form>
 </div>
 
 <div class="container">
     <h1 class="page-title">Este sitio contiene {{ num_eventos }} eventos</h1>
+    <form method="POST" action="/">
+        <select name="categorias">
+            {% for categoria in categorias %}
+                <option value="{{ categoria }}">{{ categoria }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filtar">
+    </form>
     <div class="events-grid">
         {% for evento in eventos %}
             <form action="/Registro" method="POST">
@@ -37,6 +45,10 @@
                         <div class="meta-item">
                             <strong>Categoría</strong>
                             <span>{{ evento['category'] }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Maximos Asistentes</strong>
+                            <span>{{ evento['Max_attendees'] }}</span>
                         </div>
                     </div>
                     <div class="invite-section">

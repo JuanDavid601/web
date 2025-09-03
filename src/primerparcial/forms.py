@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, TimeField, SelectField
-from wtforms.validators import  DataRequired, Length
+from wtforms import StringField, DateField, TimeField, SelectField, IntegerField
+from wtforms.validators import  DataRequired, Length, NumberRange
 
 class SignupForm(FlaskForm):
     id = StringField('id', validators=[DataRequired(), Length(max=32)])
@@ -13,7 +13,7 @@ class SignupForm(FlaskForm):
                                                 ('academico','Academico'),
                                                 ('cultural','Cultura')
                                                 ], validators=[DataRequired()])
-    
+    Max_attendees = IntegerField('Max_attendees', validators=[DataRequired(), NumberRange(min=0, max=50, message='Numero de Asistentes')])
 
 class UsuarioForm(FlaskForm):
     id = StringField('id', validators=[DataRequired(), Length(max=32)])

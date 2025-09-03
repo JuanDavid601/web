@@ -66,6 +66,14 @@
     </div>
 
     <div>
+        {{ form.Max_attendees.label }}
+        {{ form.Max_attendees(size=50) }}
+        {% for error in form.Max_attendees.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
         <button type="submit">Crear Evento</button>
     </div>
 </form>
