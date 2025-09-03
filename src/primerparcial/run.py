@@ -30,7 +30,8 @@ events = [    {
             {'name': 'Juan Felipe', 'email': 'juan@example.com'},
             {'name': 'Juan David Garcia', 'email': 'juan@example.com'},
             {'name': 'Juan Hincapie', 'email': 'juan@example.com'}
-        ]
+        ],
+        "Visible":True
     },
 ]
 
@@ -41,43 +42,50 @@ def registro():
         return render_template("registro_evento.html", id=id)
     return render_template("registro_evento.html")
 
+@app.route('/procesarRegistro', methods=['POST'])
+def procesar_Nuevo_Registro():
+    id = int(request.form['id'])
+    nombre = request.form['nombre']
+    email = request.form['email']
+
+    events[id]['attendees'].append({'name': nombre, 'email': email})
+    
+    return redirect(url_for('index'))
+
 @app.route("/", methods=['POST', 'GET'])
 def index():
-    if request.method == "POST":
-        id = int(request.form.get('id'))
-        nombre = request.form.get('nombre')
-        email = request.form.get('email')
-        try:
-            events[id]['attendees'].append({'name': nombre, 'email': email})
-        except:
-            return render_template("Home.html",num_eventos= len(events), eventos=events)
-
     return render_template("Home.html",num_eventos= len(events), eventos=events)
 
 
 @app.route('/NewEvent', methods=["GET", "POST"])
 def Formulario():
     form = SignupForm()
-    if form.validate_on_submit():
-        nuevo_evento = {
-            "id": form.id.data,
-            "title": form.title.data,
-            "description": form.description.data,
-            "date": form.date.data,
-            "time": form.time.data,
-            "location": form.location.data,
-            "category": form.category.data,
-            "attendees": []
-        }
-        print (nuevo_evento)
-        #events.append(nuevo_evento)
-
-        next_page = request.args.get('next', None)
-        if next_page:
-            return redirect(next_page)
-        return redirect(url_for('index'))
     return render_template("Form.html", form=form)
 
+@app.route('/procesarEvento', methods=['POST'])
+def procesar_Nuevo_Evento():
+    id = int(request.form['id'])
+    title = request.form['title']
+    description = request.form['description']
+    date = request.form['date']
+    time = request.form['time']
+    location = request.form['location']
+    category = request.form['category']
+
+    nuevo_evento = {
+             "id": id,
+             "title": title,
+             "description": description,
+             "date": date,
+             "time": time,
+             "location": location,
+             "category": category,
+             "attendees": [],
+             "Visible":True
+         }
+    events.append(nuevo_evento)
+    
+    return redirect(url_for('index'))
 
 
 
