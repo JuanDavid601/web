@@ -2,7 +2,7 @@
 {% block title%}Registro{% endblock %}
 
 {% block content%}
-    <form action="/" method="POST">
+    <form action="/procesarRegistro" method="POST">
         <input name="id" id="id" title="id" value= "{{id}}" style="display: none;"></input>
         Nombre: <input name ="nombre" id="nombre" type="text" required></input>
         Email: <input name="email" id ="email" type="email" required></input>
