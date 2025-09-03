@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
-from forms import SignupForm, UsuarioForm
+from .forms import SignupForm, UsuarioForm
 
 """
 GROUP:
@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'unaclave'
 
 #Estructura para categorias.
 categoria = ['deportivo', 'académico', 'cultural']
-
+usuarios = []
 
     
 events = [    {
@@ -39,6 +39,7 @@ def registro():
     if request.method == "POST":
         id = request.form.get('id')
         return render_template("registro_evento.html", id=id)
+    
     return render_template("registro_evento.html")
 
 @app.route("/", methods=['POST', 'GET'])
@@ -47,6 +48,7 @@ def index():
         id = int(request.form.get('id'))
         nombre = request.form.get('nombre')
         email = request.form.get('email')
+        
         try:
             events[id]['attendees'].append({'name': nombre, 'email': email})
         except:
@@ -55,22 +57,31 @@ def index():
     return render_template("Home.html",num_eventos= len(events), eventos=events)
 
 
-@app.route('/NewEvent', methods=["GET", "POST"])
+@app.route('/Admin/Form', methods=["GET", "POST"])
 def Formulario():
     form = SignupForm()
     if form.validate_on_submit():
+        id = form.id.data
+        title = form.time.data
+        descripcion = form.description.data
+        date = form.date.data
+        time = form.time.data
+        localisacion = form.location.data
+        categoria = form.category.data
+
+        print(id, title, descripcion, date, time, localisacion, categoria)
+
         nuevo_evento = {
-            "id": form.id.data,
-            "title": form.title.data,
-            "description": form.description.data,
-            "date": form.date.data,
-            "time": form.time.data,
-            "location": form.location.data,
-            "category": form.category.data,
+            "id": id,
+            "title": title,
+            "description": descripcion,
+            "date": date,
+            "time": time,
+            "location": localisacion,
+            "category": categoria,
             "attendees": []
         }
-        print (nuevo_evento)
-        #events.append(nuevo_evento)
+        events.append(nuevo_evento)
 
         next_page = request.args.get('next', None)
         if next_page:

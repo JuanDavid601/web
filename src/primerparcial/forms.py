@@ -13,6 +13,7 @@ class SignupForm(FlaskForm):
                                                 ('academico','Academico'),
                                                 ('cultural','Cultura')
                                                 ], validators=[DataRequired()])
+    
 
 class UsuarioForm(FlaskForm):
     id = StringField('id', validators=[DataRequired(), Length(max=32)])
