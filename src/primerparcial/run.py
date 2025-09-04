@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
-from .forms import SignupForm, UsuarioForm
+from forms import SignupForm, UsuarioForm
 from collections import defaultdict
 
 """
@@ -69,7 +69,7 @@ def registro():
 
 @app.route('/procesarRegistro', methods=['POST'])
 def procesar_Nuevo_Registro():
-    id = int(request.form['id'])
+    id = request.form['id']
     nombre = request.form['nombre']
     email = request.form['email']
 
@@ -80,14 +80,15 @@ def procesar_Nuevo_Registro():
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
+    Events=sorted(events, key=lambda x: len(x['attendees']), reverse=True)
     if request.method == "POST":
         EventosFiltrados=[]
         categoria =request.form["categorias"]
-        for event in events:
+        for event in Events:
             if event["category"]==categoria:
                 EventosFiltrados.append(event)
         return render_template("Home.html",num_eventos= len(EventosFiltrados), eventos=EventosFiltrados, categorias=categorias)
-    return render_template("Home.html",num_eventos= len(events), eventos=events, categorias=categorias)
+    return render_template("Home.html",num_eventos= len(Events), eventos=Events, categorias=categorias)
 
 
 @app.route('/NewEvent', methods=["GET", "POST"])
@@ -97,7 +98,7 @@ def Formulario():
 
 @app.route('/procesarEvento', methods=['POST'])
 def procesar_Nuevo_Evento():
-    id = int(request.form['id'])
+    id = request.form['id']
     title = request.form['title']
     description = request.form['description']
     date = request.form['date']
