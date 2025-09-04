@@ -15,7 +15,3 @@ class SignupForm(FlaskForm):
                                                 ], validators=[DataRequired()])
     Max_attendees = IntegerField('Max_attendees', validators=[DataRequired(), NumberRange(min=0, max=50, message='Numero de Asistentes')])
 
-class UsuarioForm(FlaskForm):
-    id = StringField('id', validators=[DataRequired(), Length(max=32)])
-    nombre = StringField('nombre', validators=[Length(max=50)])
-    email = StringField('email', validators=[Length(max=40)])

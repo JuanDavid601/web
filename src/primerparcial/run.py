@@ -1,13 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
-from forms import SignupForm, UsuarioForm
-from collections import defaultdict
-
-"""
-GROUP:
--Juan David Hincapie
--Juan David Garcia 
--Juan Felipe Bacca
-"""
+from forms import SignupForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'unaclave'
@@ -52,7 +44,7 @@ events = [    {
         "description": "Aprender de Guion y Narrativa",
         "date": "2026-1-1",
         "time": "14:00",
-        "location": "Auditorio XXX",
+        "location": "Auditorio 5",
         "category": "cultural",
         "Max_attendees": 34,
         "attendees": [],
@@ -122,19 +114,6 @@ def procesar_Nuevo_Evento():
     events.append(nuevo_evento)
     
     return redirect(url_for('index'))
-
-# @app.route("/admin/Register", methods=["GET", "POST"])
-# def Registro_usuario():
-#     form = UsuarioForm()
-#     if form.validate_on_submit():
-#         nuevo_usuario = {
-#             "id": form.id.data,
-#             "nombre": form.nombre.data,
-#             "email": form.email.data
-#         }
-#         usuarios.append(nuevo_usuario)
-#         return redirect(url_for('index'))
-#     return render_template('Registro_eventos.html', form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)
