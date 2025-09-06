@@ -8,73 +8,74 @@
     <div class="page">
         <h1>Creacion de Evento</h1>
     </div>
+    <div class="event-card">
+        <div>
+            {{ form.id.label }}
+            {{ form.id(size=32) }}<br>
+            {% for error in form.id.errors %}
+            <span style="color: rgb(251, 5, 5);">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.id.label }}
-        {{ form.id(size=32) }}<br>
-        {% for error in form.id.errors %}
-        <span style="color: rgb(251, 5, 5);">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.title.label }}
+            {{ form.title(size=30) }}<br>
+            {% for error in form.title.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.title.label }}
-        {{ form.title(size=30) }}<br>
-        {% for error in form.title.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.description.label }}
+            {{ form.description(size=150) }}<br>
+            {% for error in form.description.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.description.label }}
-        {{ form.description(size=150) }}<br>
-        {% for error in form.description.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.date.label }}
+            {{ form.date(size=20) }}<br>
+            {% for error in form.date.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.date.label }}
-        {{ form.date(size=20) }}<br>
-        {% for error in form.date.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.time.label }}
+            {{ form.time(size=100) }}<br>
+            {% for error in form.time.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.time.label }}
-        {{ form.time(size=100) }}<br>
-        {% for error in form.time.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.location.label }}
+            {{ form.location(size=150) }}<br>
+            {% for error in form.location.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.location.label }}
-        {{ form.location(size=150) }}<br>
-        {% for error in form.location.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.category.label }}
+            {{ form.category() }}<br>
+            {% for error in form.category.errors %}
+            <span style="color: red;">{{ error }}</span>"
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.category.label }}
-        {{ form.category() }}<br>
-        {% for error in form.category.errors %}
-        <span style="color: red;">{{ error }}</span>"
-        {% endfor %}
-    </div>
+        <div>
+            {{ form.Max_attendees.label }}
+            {{ form.Max_attendees(size=50) }}
+            {% for error in form.Max_attendees.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div>
-        {{ form.Max_attendees.label }}
-        {{ form.Max_attendees(size=50) }}
-        {% for error in form.Max_attendees.errors %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div>
-        <button type="submit">Crear Evento</button>
+        <div>
+            <input type="submit" value="Crear Evento">
+        </div>
     </div>
 </form>
 {% endblock %}
